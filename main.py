@@ -3,7 +3,7 @@ from telebot.apihelper import ApiTelegramException
 import os
 
 # بهتره توکن رو از Environment Variable بگیری
-BOT_TOKEN = os.getenv("8276989335:AAH7BcioFOhQ5rJUNRxPyt9TPcWAqM1Kogs")
+BOT_TOKEN = os.getenv("8276989335:AAGsRgIcyCh5aXJghAMxjN6KhfoCTlRUx0I")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
