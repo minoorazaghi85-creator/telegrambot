@@ -3,7 +3,7 @@ import os
 
 print("🚀 Starting bot...")
 
-BOT_TOKEN = os.getenv("8276989335:AAF2O9HzuhtkemO3O60WRRe1pdcNL82exHg")
+BOT_TOKEN = os.getenv("8276989335:AAEMMygR7yaUlCV7WhMoI0WP6u5wf2MiOls")
 
 print("DEBUG BOT_TOKEN:", BOT_TOKEN)
 
