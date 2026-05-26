@@ -4,7 +4,7 @@ import telebot
 print("🚀 Starting bot...")
 
 # ✅ درست: خواندن توکن از متغیر محیطی به نام BOT_TOKEN
-BOT_TOKEN = os.getenv("8276989335:AAEMMygR7yaUlCV7WhMoI0WP6u5wf2MiOls")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 print("DEBUG BOT_TOKEN:", BOT_TOKEN)
 
