@@ -1,6 +1,6 @@
 import telebot
 
-bot = telebot.TeleBot("توکن-رباتت")
+bot = telebot.TeleBot("8276989335:AAH7BcioFOhQ5rJUNRxPyt9TPcWAqM1Kogs")
 
 @bot.message_handler(content_types=['document', 'video'])
 def handle_file(message):
