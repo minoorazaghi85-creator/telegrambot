@@ -1,5 +1,6 @@
-import telebot
 import os
+print("ENV TEST:", dict(os.environ))
+import telebot
 
 print("🚀 Starting bot...")
 
