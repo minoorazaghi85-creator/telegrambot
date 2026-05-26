@@ -1,23 +1,27 @@
 import os
+import threading
+from flask import Flask
 import telebot
 
-print("🚀 Starting bot...")
+app = Flask(__name__)
 
-# ✅ درست: خواندن توکن از متغیر محیطی به نام BOT_TOKEN
+# دریافت توکن از متغیرهای محیطی رندر
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-print("DEBUG BOT_TOKEN:", BOT_TOKEN)
-
 if not BOT_TOKEN:
-    print("❌ BOT_TOKEN is NOT loaded from Render Environment Variables")
-    print("👉 Go to Render → Environment → Add BOT_TOKEN")
-    exit(1)  # خارج شدن با خطا تا دیپلوی fail شود و لاگ بدهد
-
-print("✅ BOT_TOKEN loaded successfully")
+    print("❌ BOT_TOKEN environment variable not set!")
+    exit(1)
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# هندلر فایل‌های مستند (فیلم، سند)
+@app.route('/')
+def index():
+    return "I'm alive!"
+
+@app.route('/health')
+def health():
+    return "OK", 200
+
+# --- منطق ربات تلگرام (در یک Thread جداگانه) ---
 @bot.message_handler(content_types=['document', 'video'])
 def handle_file(message):
     try:
@@ -33,11 +37,24 @@ def handle_file(message):
 
         file_info = bot.get_file(file_id)
         download_link = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_info.file_path}"
-
-        bot.reply_to(message, f"📥 لینک دانلود داخلی:\n{download_link}")
+        bot.reply_to(message, f"📥 لینک دانلود:\n{download_link}")
 
     except Exception as e:
         bot.reply_to(message, f"❌ خطا در پردازش:\n{e}")
+# --- پایان منطق ربات ---
 
-print("🤖 Bot is running and polling...")
-bot.infinity_polling()
+def run_bot():
+    """تابعی برای اجرای ربات در یک Thread جداگانه"""
+    print("🤖 Starting Telegram bot polling...")
+    bot.infinity_polling()
+
+if __name__ == "__main__":
+    # اجرای ربات در یک Thread مجزا
+    bot_thread = threading.Thread(target=run_bot)
+    bot_thread.start()
+
+    # دریافت پورت از متغیر محیطی Render (پیش‌فرض: 10000)
+    port = int(os.environ.get("PORT", 10000))
+    print(f"🌐 Starting Flask server on port {port}...")
+    # سرور Flask را برای Render روشن نگه می‌دارد
+    app.run(host="0.0.0.0", port=port)
